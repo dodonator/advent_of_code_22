@@ -1,36 +1,39 @@
 # https://adventofcode.com/2022/day/1
 from pathlib import Path
+from typing import List
 
 filename = "2022-12-01_input.txt"
 filepath = Path(filename)
 
-elves = []
+elves: List[int] = []
 
 with filepath.open("r") as stream:
-    calories = 0
-    elf_counter = 0
+    current_total: int = 0  # current calorie total
+    elf_counter = 0  # index of the current elf
 
     for line in stream:
         line = line.strip("\n")
+
         if line:
+            # add value to total
             cal = int(line)
             print(f"elf {elf_counter:>2}: {cal:>10}")
-            calories += int(line)
+            current_total += int(line)
+
         else:
-            elves.append(calories)
-            print(f"elf {elf_counter:>2} sum: {calories:>6}")
-            print("#" * 20)
-            calories = 0
+            # save total to list
+            elves.append(current_total)
+            current_total = 0
             elf_counter += 1
     else:
-        elves.append(calories)
-        print(f"elf {elf_counter:>2} sum: {calories:>6}")
-        print("#" * 20)
+        # add the last total
+        elves.append(current_total)
+
+# sort the elves by their calorie total descending
+elves.sort(reverse=True)
 
 # answer part 1
 print(max(elves))
 
-elves.sort(reverse=True)
-# print(elves)
-# print(elves[:3])
+# answer part 2
 print(sum(elves[:3]))
