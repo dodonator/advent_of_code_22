@@ -33,8 +33,33 @@ def download_input_data(year: int, day: int) -> Path:
     return output_path
 
 
+def create_code_file(year: int, day: int) -> Path:
+    template_path = Path("template.py")
+    output_path = Path(f"{year}-12-{day:0>2}.py")
+
+    if output_path.exists():
+        return output_path
+
+    with template_path.open("r") as stream:
+        template = stream.read()
+
+    content = template.format(year=year, day=day)
+
+    with output_path.open("w") as stream:
+        stream.write(content)
+
+    return output_path
+
+
+def init(year: int, day: int):
+    data_path = download_input_data(year, day)
+    code_path = create_code_file(year, day)
+    print(f"input data: {data_path}")
+    print(f"code path: {code_path}")
+
+
 if __name__ == "__main__":
     today = datetime.date.today()
-    year, day = today.year, today.day
-    out = download_input_data(year, day)
-    print(out)
+    year = today.year
+    day = today.day
+    init(year, day)
