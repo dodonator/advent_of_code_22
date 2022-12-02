@@ -41,4 +41,4 @@ with filepath.open("r") as stream:
         print(result, score)
 
 # solution part 1
-print(total_score)
+print(total_score)  # in my case 12855
