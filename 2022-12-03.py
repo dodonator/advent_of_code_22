@@ -4,6 +4,13 @@ from pathlib import Path
 from string import ascii_uppercase, ascii_lowercase
 from more_itertools import grouper
 
+
+def divide_list(p_list: list) -> tuple[list]:
+    # divide a list into two parts
+    mid = len(p_list) // 2
+    return p_list[:mid], p_list[mid:]
+
+
 chars = "#" + ascii_lowercase + ascii_uppercase
 
 filename = f"input_" + Path(__file__).stem + ".txt"
