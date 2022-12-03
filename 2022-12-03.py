@@ -42,6 +42,15 @@ def part_two():
     with filepath.open("r") as stream:
         lines = (line.strip("\n") for line in stream.readlines())
 
-    groups = grouper(lines, 3)
-    for g in groups:
-        pass
+    priority_sum = 0
+    for group in grouper(lines, 3):
+        rucksacks = (set(rucksack) for rucksack in group)
+        common = set.intersection(*rucksacks).pop()
+        priority = chars.index(common)
+        priority_sum += priority
+
+    # solution part 2
+    return priority_sum  # in my case 2577
+
+
+print(part_two())
