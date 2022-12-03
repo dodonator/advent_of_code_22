@@ -12,12 +12,16 @@ priority_sum = 0
 with filepath.open("r") as stream:
     for line in stream:
         line = line.strip("\n")
+        # get number of items
         item_number = len(line)
+        # split line at midpoint
         midpoint = item_number // 2
         first, second = set(line[:midpoint]), set(line[midpoint:])
+        # get intersection of compartments
         common = set.intersection(first, second).pop()
         priority = chars.index(common)
         print(priority)
+        # add up priorities
         priority_sum += priority
 
 # solution part 1
