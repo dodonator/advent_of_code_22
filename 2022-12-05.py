@@ -8,17 +8,17 @@ filepath = Path("2022") / Path(filename)
 
 with filepath.open("r") as stream:
     content = stream.read()
-    # split content on newline
-    conf = content.split("\n\n")[0].split("\n")
-    moves = content.split("\n\n")[1].split("\n")
+    # split content on empty line
+    start_configuration = content.split("\n\n")[0].split("\n")
+    movement_commands = content.split("\n\n")[1].split("\n")
 
 # last line of conf contains the header
-header_row = conf.pop()
+header_row = start_configuration.pop()
 # parse the header row
 header = list(filter(bool, header_row.strip("\n").split(" ")))
 
 # flip the table
-conf.reverse()
+start_configuration.reverse()
 
 # create an table for the indices
 index_table = {}
@@ -27,7 +27,7 @@ for number in header:
 
 stacks = {number: [] for number in header}
 
-for row in conf:
+for row in start_configuration:
     for number in header:
         index = index_table[number]
         value = row[index]
@@ -35,23 +35,27 @@ for row in conf:
             continue
         stacks[number].insert(0, value)
 
-print(stacks)
-
-# parse movement commands
-# move 5 from 4 to 9
-
-for cmd in moves:
+for cmd in movement_commands:
+    # parse movement commands
     result = parse("move {} from {} to {}", cmd)
     if result is None:
         break
+
     size, source, target = result
     size = int(size)
 
-    current = stacks[source][:size]
-    current.reverse()
-    del stacks[source][:size]
-    stacks[target] = current + stacks[target]
+    # get the crates from source stack
+    crates = stacks[source][:size]
 
-# solution part one
-# get first crate of each stack
+    # flip crate order to emulate moving crates one at a time
+    crates.reverse()  # comment this out for part two
+
+    # delete crates from source stack
+    del stacks[source][:size]
+
+    # append crates on top of target stack
+    stacks[target] = crates + stacks[target]
+
+# solution
+print("solution: ")
 print("".join((stack[0] for _, stack in stacks.items())))
