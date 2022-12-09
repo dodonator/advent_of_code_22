@@ -12,7 +12,7 @@ filepath = aoc_folder / Path("2022") / Path(input_file)
 
 content = filepath.read_text()
 lines = content.split("\n")
-lines = list(filter(bool, lines))
+lines = list(filter(bool, lines))  # this line should delete blank lines
 
 grid = [list(line) for line in lines]
 width = len(grid[0])
@@ -58,4 +58,5 @@ for y, row in enumerate(grid):
         if visible:
             visible_counter += 1
 
-print(visible_counter)
+# solution for part one
+print(f"number of visible trees: {visible_counter}")
